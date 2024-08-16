@@ -3,7 +3,6 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 class KeyController {
-  // Retrieve all keys
   async getAllKeys(req, res) {
     try {
       const keys = await prisma.key.findMany();
@@ -14,7 +13,6 @@ class KeyController {
     }
   }
 
-  // Add new key to stock
   async addKey(req, res) {
     const { key } = req.body;
 
@@ -36,7 +34,6 @@ class KeyController {
     return res.status(201).send("Key added successfully");
   }
 
-  // Remove key from stock
   async removeKey(req, res) {
     const { id } = req.params;
 
@@ -60,7 +57,6 @@ class KeyController {
     }
   }
 
-  // Update key in stock
   async updateKey(req, res) {
     const { id } = req.params;
     const updatedKey = req.body;
