@@ -15,7 +15,7 @@ export default function LoginForm() {
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center">
       <img src={logo} alt="Global Cards" className="mb-8 max-w-[275px]" />
-      <Card className="w-full max-w-sm">
+      <Card className="w-full max-w-sm bg-zinc-900">
         <CardHeader>
           <CardTitle className="text-2xl">Login</CardTitle>
           <CardDescription>
@@ -31,11 +31,17 @@ export default function LoginForm() {
               placeholder="fulano@globalcards.com"
               autoComplete="off"
               required
+              className="bg-zinc-950"
             />
           </div>
           <div className="grid gap-2">
             <Label htmlFor="password">Senha</Label>
-            <Input id="password" type="password" required />
+            <Input
+              id="password"
+              type="password"
+              required
+              className="bg-zinc-950"
+            />
           </div>
         </CardContent>
         <CardFooter>
