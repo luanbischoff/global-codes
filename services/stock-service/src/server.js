@@ -1,7 +1,9 @@
 const app = require("./app");
-const { apiPort } = require("./config/index");
+const { serverPort } = require("./config/index");
+const { connectDatabase } = require("./utils/database");
 const logger = require("./utils/logger");
 
-app.listen(3001, () => {
-  logger.info(`Stock Management Service running on port ${3001}`);
+app.listen(serverPort, async () => {
+  await connectDatabase();
+  logger.info(`Stock Management Service running on port ${serverPort}`);
 });
