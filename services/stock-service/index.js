@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-const keyRoutes = require("./routes/keyRoutes");
+const keyRoutes = require("./src/routes/keyRoutes");
 
 // Middlewares
 app.use(express.json()); // For parsing application/json

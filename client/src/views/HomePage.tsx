@@ -1,3 +1,9 @@
+import { ChartFullbanner } from "@/components/ChartFullbanner";
+
 export function HomePage() {
-  return <>Home Page</>;
+  return (
+    <div>
+      <ChartFullbanner />
+    </div>
+  );
 }

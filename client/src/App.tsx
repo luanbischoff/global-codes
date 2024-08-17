@@ -1,7 +1,7 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { LoginPage } from "./views/LoginPage";
-import { NotFoundPage } from "./views/NotFoundPage";
-import { HomePage } from "./views/HomePage";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { LoginPage } from './views/LoginPage'
+import { NotFoundPage } from './views/NotFoundPage'
+import { HomePage } from './views/HomePage'
 
 const App = () => {
   return (
@@ -12,7 +12,7 @@ const App = () => {
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
-  );
-};
+  )
+}
 
-export default App;
+export default App

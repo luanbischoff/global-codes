@@ -12,9 +12,11 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
-
-model Key {
-  id     String @id @unique @default(uuid())
-  key    String @unique
-  status String
+model Stock {
+  id        String @id @unique @default(uuid())
+  key       String   @unique
+  status    String
+  data      Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
