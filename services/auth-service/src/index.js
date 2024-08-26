@@ -1,15 +1,19 @@
 const express = require("express");
+const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
+const protectedRoutes = require("./routes/protectedRoutes");
 const authMiddleware = require("./middlewares/authMiddleware");
 const roleMiddleware = require("./middlewares/roleMiddleware");
 require("dotenv").config();
 
 const app = express();
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 11001;
 
 app.use(express.json());
-app.use("/auth", authRoutes);
+app.use(cors());
+app.use("/", authRoutes);
+app.use("/protected", authMiddleware, protectedRoutes);
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });

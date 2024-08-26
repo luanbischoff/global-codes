@@ -1,75 +1,32 @@
-const {
-  addNewStock,
-  changeStockStatus,
-  fetchStockByKey,
-  fetchAllStockKeys,
-} = require("../services/stockService");
-const handleError = require("../utils/errorHandler");
+const stockService = require("../services/stockService");
 
-/**
- * Creates a new stock and returns it in the response.
- *
- * @param {object} req - The incoming HTTP request.
- * @param {object} res - The outgoing HTTP response.
- * @param {function} next - The next middleware function in the stack.
- * @return {object} The newly created stock in JSON format.
- */
-exports.createStockController = async (req, res, next) => {
+const addBatch = async (req, res) => {
   try {
-    const stock = await addNewStock(req.body);
-    res.status(201).json(stock);
+    const { category, quantity, duration } = req.body;
+    const batch = await stockService.createBatch(category, quantity, duration);
+    res.status(201).json(batch);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(400).json({ message: error.message });
   }
 };
 
-/**
- * Updates the stock status based on the provided key, status, and data.
- *
- * @param {object} req - The incoming HTTP request containing the key, status, and data in its params and body.
- * @param {object} res - The outgoing HTTP response.
- * @return {object} The updated stock in JSON format.
- */
-exports.updateStockStatusController = async (req, res) => {
+const importCodes = async (req, res) => {
   try {
-    const { key } = req.params;
-    const { status, data } = req.body;
-    const stock = await changeStockStatus(key, status, data);
+    const { filePath, batchId } = req.body;
+    const result = await stockService.importCodes(filePath, batchId);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+const getStock = async (req, res) => {
+  try {
+    const stock = await stockService.getStock();
     res.status(200).json(stock);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(400).json({ message: error.message });
   }
 };
 
-/**
- * Retrieves a stock by its key and returns it in the response.
- *
- * @param {object} req - The incoming HTTP request containing the key in its params.
- * @param {object} res - The outgoing HTTP response.
- * @return {object} The stock in JSON format.
- */
-exports.getStockByKeyController = async (req, res) => {
-  try {
-    const { key } = req.params;
-    const stock = await fetchStockByKey(key);
-    res.status(200).json(stock);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-/**
- * Retrieves all available stocks and returns them in the response.
- *
- * @param {object} req - The incoming HTTP request.
- * @param {object} res - The outgoing HTTP response.
- * @return {object} The list of all available stocks in JSON format.
- */
-exports.getAllStocksController = async (req, res) => {
-  try {
-    const stock = await fetchAllStockKeys();
-    res.status(200).json(stock);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+module.exports = { addBatch, importCodes, getStock };

@@ -12,11 +12,21 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
-model Stock {
-  id        String @id @unique @default(uuid())
-  key       String   @unique
-  status    String
-  data      Json
+
+model Batch {
+  id        Int      @id @default(autoincrement())
+  category  String
+  quantity  Int
+  duration  Int
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  keys      Key[]
 }
+
+model Key {
+  id        Int      @id @default(autoincrement())
+  code      String   @unique
+  batch     Batch    @relation(fields: [batchId], references: [id])
+  batchId   Int
+  createdAt DateTime @default(now())
+}
+

@@ -1,47 +1,24 @@
-const {
-  createStock,
-  updateStockStatus,
-  getStockByKey,
-  getAllStock,
-} = require("../models/stockModel");
+const stockModel = require("../models/stockModel");
+const csvParser = require("../utils/csvParser");
 
-/**
- * Creates a new stock record in the database.
- *
- * @param {Object} stockData - The data for the new stock record.
- * @return {Promise<Object>} A promise that resolves to the newly created stock record.
- */
-exports.addNewStock = async (stockData) => {
-  return await createStock(stockData);
+const createBatch = async (category, quantity, duration) => {
+  return await stockModel.createBatch(category, quantity, duration);
 };
 
-/**
- * Updates the status of a stock record in the database.
- *
- * @param {string} key - The unique identifier of the stock record.
- * @param {string} status - The new status of the stock record.
- * @param {Object} [data] - Additional data to update in the stock record.
- * @return {Promise<Object>} A promise that resolves to the updated stock record.
- */
-exports.changeStockStatus = async (key, status, data) => {
-  return await updateStockStatus(key, status, data);
+const importCodes = async (filePath, batchId) => {
+  const codes = await csvParser.parseCSV(filePath);
+
+  const batch = await stockModel.getBatch(batchId);
+
+  if (!batch) {
+    throw new Error("No batch found to associate codes.");
+  }
+
+  return await stockModel.importCodes(codes, batch.id);
 };
 
-/**
- * Retrieves a stock record from the database by its unique key.
- *
- * @param {string} key - The unique identifier of the stock record.
- * @return {Promise<Object>} A promise that resolves to the stock record.
- */
-exports.fetchStockByKey = async (key) => {
-  return await getStockByKey(key);
+const getStock = async () => {
+  return await stockModel.getStock();
 };
 
-/**
- * Retrieves all stock keys from the database.
- *
- * @return {Promise<Array>} A promise that resolves to an array of all stock keys.
- */
-exports.fetchAllStockKeys = async () => {
-  return await getAllStock();
-};
+module.exports = { createBatch, importCodes, getStock };
