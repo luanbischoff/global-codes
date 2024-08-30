@@ -6,4 +6,8 @@ const generateToken = (userId, permissions) => {
   });
 };
 
-module.exports = { generateToken };
+const readToken = (token) => {
+  return jwt.verify(token, process.env.JWT_SECRET);
+};
+
+module.exports = { generateToken, readToken };

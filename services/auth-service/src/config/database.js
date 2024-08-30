@@ -1,5 +1,5 @@
 const { PrismaClient } = require("@prisma/client");
-const logger = require("../utils/logger.js");
+const logger = require("../utils/logger");
 const prisma = new PrismaClient();
 
 const connectDatabase = async () => {
